@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Archiver-Version: 1.0
+Created-By: Andriu
+Built-By: Andriu
+Main-Class: Main
+Class-Path: jedis-2.0.0.jar
