@@ -1,6 +1,7 @@
-import sun.nio.ch.Net;
+import redis.clients.jedis.Jedis;
 
-import java.util.HashMap;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
@@ -45,7 +46,8 @@ public class Main {
     //TODO: implement
     public static void main(String[] args) {
         Node[] nodes = new Node[NUM_NODES];
-
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String Id = "Transation from " + new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timestamp);
         System.out.println("Creating nodes");
 
         for(int i = 0; i < NUM_NODES; i++)
@@ -115,7 +117,6 @@ public class Main {
         //do simulation
         do
         {
-        	System.out.println("Iteration");
             if(Main.nodesPositive > (NUM_NODES * CONSENSUS_PERCENT/100.0)) break;
             if(Main.nodesNegative > (NUM_NODES * CONSENSUS_PERCENT/100.0)) break;
             Iterator<Map.Entry<Integer, Event>> it = network.messages.entrySet().iterator();
@@ -150,6 +151,13 @@ public class Main {
         long totalMessagesSend = 0;
         for(int i = 0; i < NUM_NODES; i++) totalMessagesSend += nodes[i].messagesSent;
         System.out.println("The average node sent " + totalMessagesSend / NUM_NODES + " messages");
+        Jedis jedis = new Jedis("redis1.mapu.usermd.net", 9000);
+        String result = (Main.nodesPositive > Main.nodesNegative) ? "positive":"negative";
+        System.out.println("Connected to Redis");
+        jedis.set(Id, result);
+        String value = jedis.get(Id);
+        System.out.println("Saved transation: "+Id+ " result: " + value);
+       
+        
     }
-
 }
