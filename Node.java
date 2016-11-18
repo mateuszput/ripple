@@ -100,7 +100,7 @@ public class Node
 
         if(unlCount >= Main.UNL_THRESH)
         {
-            if((knowledge.get(n) == 1) && (unlBalance <-Main.SELF_WEIGHT))
+            if((knowledge.get(n) == (char)1) && (unlBalance <-Main.SELF_WEIGHT))
             {
                 knowledge.set(n, (char)-1);
                 --Main.nodesPositive;
@@ -109,7 +109,7 @@ public class Node
                 changes.put(n, new NodeState(n, nts.get(n), (char)-1));
                 posChange = true;
             }
-            else if((knowledge.get(n) == -1) && (unlBalance > Main.SELF_WEIGHT))
+            else if((knowledge.get(n) == (char)-1) && (unlBalance > Main.SELF_WEIGHT))
             {
                 knowledge.set(n, (char)1);
                 ++Main.nodesPositive;
